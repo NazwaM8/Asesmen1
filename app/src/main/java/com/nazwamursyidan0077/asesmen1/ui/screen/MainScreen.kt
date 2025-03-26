@@ -4,16 +4,20 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedButton
@@ -47,9 +51,7 @@ fun MainScreen(navController: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    Text(text = stringResource(id = R.string.app_name))
-                },
+                title = { Text(text = stringResource(id = R.string.app_name)) },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary,
@@ -61,13 +63,26 @@ fun MainScreen(navController: NavHostController) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenContent(modifier: Modifier = Modifier, navController: NavHostController) {
     var name by rememberSaveable { mutableStateOf("") }
+    val item = listOf("PS2", "PS3", "PS4", "PS5")
+    var selectedPS by rememberSaveable { mutableStateOf(item[0]) }
+    var isExpanded by remember { mutableStateOf(false) }
+    var hours by rememberSaveable { mutableStateOf("") }
+
+    var showReceipt by rememberSaveable { mutableStateOf(false) }
+    var receiptName by rememberSaveable { mutableStateOf("") }
+    var receiptPS by rememberSaveable { mutableStateOf("") }
+    var receiptHours by rememberSaveable { mutableStateOf(0) }
 
 
     Column (
-        modifier = modifier.fillMaxSize().padding(16.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -87,135 +102,123 @@ fun ScreenContent(modifier: Modifier = Modifier, navController: NavHostControlle
             ),
             modifier = Modifier.fillMaxWidth()
         )
-
-        RentalCalculator()
-
-        Row (
-            modifier = Modifier.padding(top = 16.dp),
+        OutlinedButton(
+            onClick = {
+                navController.navigate(Screen.ListPS2.route)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            contentPadding = PaddingValues(vertical = 16.dp)
         ) {
-            OutlinedButton(
-                onClick = {
-                    navController.navigate(Screen.ListPS2.route)
-                },
-                modifier = Modifier.padding(top = 4.dp, end = 8.dp),
-                contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.list_game) + " PS2"
-                )
-            }
-
-            OutlinedButton(
-                onClick = {
-
-                },
-                modifier = Modifier.padding(top = 4.dp, start = 8.dp),
-                contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.list_game) + " PS3"
-                )
-            }
+            Text(
+                text = stringResource(R.string.list_game)
+            )
         }
 
-        Row (
-            modifier = Modifier.padding(top = 6.dp)
+        Column (
+            modifier = Modifier.fillMaxWidth()
         ) {
-            OutlinedButton(
-                onClick = {
-
-                },
-                modifier = Modifier.padding(top = 4.dp, end = 8.dp),
-                contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
+            ExposedDropdownMenuBox(
+                expanded = isExpanded,
+                onExpandedChange = { isExpanded = !isExpanded}
             ) {
-                Text(
-                    text = stringResource(R.string.list_game) + " PS4"
+                OutlinedTextField(
+                    value = selectedPS,
+                    onValueChange = {},
+                    readOnly = true,
+                    label = { Text(text = stringResource(R.string.ps_type)) },
+                    trailingIcon = {ExposedDropdownMenuDefaults.TrailingIcon(isExpanded)},
+                    modifier = Modifier
+                        .menuAnchor(MenuAnchorType.PrimaryNotEditable, enabled = true)
+                        .fillMaxWidth()
                 )
+
+                ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = {isExpanded = false}, modifier = Modifier.fillMaxWidth()) {
+                    item.forEachIndexed { index, text ->
+                        DropdownMenuItem(
+                            text = { Text(text = text) },
+                            onClick = {
+                                selectedPS = item[index]
+                                isExpanded = false
+                            },
+                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                        )
+                    }
+                }
             }
 
-            OutlinedButton(
-                onClick = {
-
-                },
-                modifier = Modifier.padding(top = 4.dp, start = 8.dp),
-                contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.list_game) + " PS5"
-                )
-            }
+            OutlinedTextField(
+                value = hours,
+                onValueChange = { hours = it },
+                label = { Text(text = stringResource(R.string.total_hours)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                modifier = Modifier.fillMaxWidth().padding(top = 12.dp)
+            )
+            Text(
+                text = stringResource(R.string.total_price) + totalPrice(selectedPS, hours.toIntOrNull() ?:0)
+            )
         }
-
         Button(
             onClick = {
-
+                if (name.isNotEmpty() && hours.isNotEmpty()) {
+                    receiptName = name
+                    receiptPS = selectedPS
+                    receiptHours = hours.toIntOrNull() ?: 0
+                    showReceipt = true
+                }
             },
-            modifier = Modifier.padding(top = 24.dp),
+            modifier = Modifier.padding(top = 8.dp),
             contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
         ) {
             Text(
                 text = stringResource(R.string.print_receipt)
             )
         }
-    }
-}
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun RentalCalculator() {
-    val item = listOf("PS2", "PS3", "PS4", "PS5")
-    var selectedPS by rememberSaveable { mutableStateOf(item[0]) }
-    var isExpanded by remember { mutableStateOf(false) }
-
-    var hours by rememberSaveable { mutableStateOf("") }
-
-    Column (
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        ExposedDropdownMenuBox(
-            expanded = isExpanded,
-            onExpandedChange = { isExpanded = !isExpanded}
-        ) {
-            OutlinedTextField(
-                value = selectedPS,
-                onValueChange = {},
-                readOnly = true,
-                label = { Text(text = stringResource(R.string.ps_type)) },
-                trailingIcon = {ExposedDropdownMenuDefaults.TrailingIcon(isExpanded)},
+        if (showReceipt) {
+            Card(
                 modifier = Modifier
-                    .menuAnchor(MenuAnchorType.PrimaryNotEditable, enabled = true)
                     .fillMaxWidth()
-            )
-
-            ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = {isExpanded = false}, modifier = Modifier.fillMaxWidth()) {
-                item.forEachIndexed { index, text ->
-                    DropdownMenuItem(
-                        text = { Text(text = text) },
-                        onClick = {
-                            selectedPS = item[index]
-                            isExpanded = false
-                        },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                    .padding(top = 12.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.receipt),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    HorizontalDivider()
+                    Text(
+                        text = stringResource(R.string.customer_name) + " $receiptName",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Text(
+                        text = stringResource(R.string.ps_type) + " $receiptPS",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Text(
+                        text = stringResource(R.string.total_hours) + " $receiptHours",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    HorizontalDivider()
+                    Text(
+                        text = stringResource(R.string.total_price) + "${totalPrice(receiptPS, receiptHours)}",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
             }
         }
-
-        OutlinedTextField(
-            value = hours,
-            onValueChange = { hours = it },
-            label = { Text(text = stringResource(R.string.total_hours)) },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Next
-            ),
-            modifier = Modifier.fillMaxWidth().padding(top = 12.dp)
-        )
-        Text(
-            text = stringResource(R.string.total_price) + totalPrice(selectedPS, hours.toIntOrNull() ?:0)
-        )
     }
 }
 
@@ -229,8 +232,6 @@ fun totalPrice(selectedPS: String, totalHours: Int): Int {
     }
     return pricePerHours * totalHours
 }
-
-
 
 @Preview(showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
