@@ -15,6 +15,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -34,12 +35,15 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.nazwamursyidan0077.asesmen1.R
+import com.nazwamursyidan0077.asesmen1.navigation.Screen
 import com.nazwamursyidan0077.asesmen1.ui.theme.Asesmen1Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(navController: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -53,12 +57,12 @@ fun MainScreen() {
             )
         }
     ) { innerPadding ->
-        ScreenContent(Modifier.padding(innerPadding))
+        ScreenContent(Modifier.padding(innerPadding), navController)
     }
 }
 
 @Composable
-fun ScreenContent(modifier: Modifier = Modifier) {
+fun ScreenContent(modifier: Modifier = Modifier, navController: NavHostController) {
     var name by remember { mutableStateOf("") }
 
 
@@ -91,7 +95,7 @@ fun ScreenContent(modifier: Modifier = Modifier) {
         ) {
             OutlinedButton(
                 onClick = {
-
+                    navController.navigate(Screen.ListPS2.route)
                 },
                 modifier = Modifier.padding(top = 4.dp, end = 8.dp),
                 contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
@@ -180,7 +184,7 @@ fun RentalCalculator() {
                 label = { Text(text = stringResource(R.string.ps_type)) },
                 trailingIcon = {ExposedDropdownMenuDefaults.TrailingIcon(isExpanded)},
                 modifier = Modifier
-                    .menuAnchor()
+                    .menuAnchor(MenuAnchorType.PrimaryNotEditable, enabled = true)
                     .fillMaxWidth()
             )
 
@@ -231,8 +235,8 @@ fun totalPrice(selectedPS: String, totalHours: Int): Int {
 @Preview(showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun MainScreenPreview() {
     Asesmen1Theme {
-        MainScreen()
+        MainScreen(rememberNavController())
     }
 }

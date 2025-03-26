@@ -8,4 +8,8 @@
     <string name="total_price">Total Price: Rp.</string>
     <string name="print_receipt">Print Receipt</string>
     <string name="list_game">List Game</string>
+    <string name="list_ps2">List Game PS2</string>
+    <string name="list_ps3">List Game PS3</string>
+    <string name="list_ps4">List Game PS4</string>
+    <string name="list_ps5">List Game PS5</string>
 </resources>
