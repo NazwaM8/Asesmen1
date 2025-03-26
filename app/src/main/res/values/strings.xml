@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Rental PS App</string>
+    <string name="rental_intro">Welcome to the Rental PS App.\nPlease fill in the data below to complete the transaction.</string>
+    <string name="customer_name">Name</string>
+    <string name="rental_ps">Rental PS</string>
+    <string name="ps_type">PS Type</string>
+    <string name="total_hours">Hours</string>
+    <string name="total_price">Total Price: Rp.</string>
+    <string name="print_receipt">Print Receipt</string>
+    <string name="list_game">List Game</string>
 </resources>
