@@ -12,4 +12,5 @@
     <string name="list_ps3">List Game PS3</string>
     <string name="list_ps4">List Game PS4</string>
     <string name="list_ps5">List Game PS5</string>
+    <string name="back">Back</string>
 </resources>

@@ -2,7 +2,11 @@ package com.nazwamursyidan0077.asesmen1.ui.screen
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -13,15 +17,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.nazwamursyidan0077.asesmen1.R
 import com.nazwamursyidan0077.asesmen1.ui.theme.Asesmen1Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListPS2Screen() {
+fun ListPS2Screen(navController: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = {navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.back),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                },
                 title = {
                     Text(text = stringResource(id = R.string.list_ps2))
                 },
@@ -44,6 +59,6 @@ fun ListPS2Screen() {
 @Composable
 fun ListPS2ScreenPreview() {
     Asesmen1Theme {
-        ListPS2Screen()
+        ListPS2Screen(rememberNavController())
     }
 }

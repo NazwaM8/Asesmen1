@@ -18,7 +18,7 @@ fun SetupNavGraph(navController: NavHostController = rememberNavController()) {
             MainScreen(navController)
         }
         composable(route = Screen.ListPS2.route) {
-            ListPS2Screen()
+            ListPS2Screen(navController)
         }
     }
 }

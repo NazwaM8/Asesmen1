@@ -63,7 +63,7 @@ fun MainScreen(navController: NavHostController) {
 
 @Composable
 fun ScreenContent(modifier: Modifier = Modifier, navController: NavHostController) {
-    var name by remember { mutableStateOf("") }
+    var name by rememberSaveable { mutableStateOf("") }
 
 
     Column (
@@ -167,7 +167,7 @@ fun RentalCalculator() {
     var selectedPS by rememberSaveable { mutableStateOf(item[0]) }
     var isExpanded by remember { mutableStateOf(false) }
 
-    var hours by remember { mutableStateOf("") }
+    var hours by rememberSaveable { mutableStateOf("") }
 
     Column (
         modifier = Modifier
