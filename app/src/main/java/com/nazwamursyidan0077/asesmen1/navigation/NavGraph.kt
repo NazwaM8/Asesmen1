@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.nazwamursyidan0077.asesmen1.ui.screen.ListPS2Screen
+import com.nazwamursyidan0077.asesmen1.ui.screen.ListGameScreen
 import com.nazwamursyidan0077.asesmen1.ui.screen.MainScreen
 
 @Composable
@@ -17,8 +17,8 @@ fun SetupNavGraph(navController: NavHostController = rememberNavController()) {
         composable(route = Screen.Home.route) {
             MainScreen(navController)
         }
-        composable(route = Screen.ListPS2.route) {
-            ListPS2Screen(navController)
+        composable(route = Screen.ListGame.route) {
+            ListGameScreen(navController)
         }
     }
 }
