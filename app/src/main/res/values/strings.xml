@@ -14,4 +14,5 @@
     <string name="list_ps4">List Game PS4</string>
     <string name="list_ps5">List Game PS5</string>
     <string name="back">Back</string>
+    <string name="input_invalid">Cannot be Empty</string>
 </resources>

@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -18,6 +20,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedButton
@@ -74,6 +77,9 @@ fun ScreenContent(modifier: Modifier = Modifier, navController: NavHostControlle
     var isExpanded by remember { mutableStateOf(false) }
     var hours by rememberSaveable { mutableStateOf("") }
 
+    var errorName by remember { mutableStateOf(false) }
+    var errorHours by remember { mutableStateOf(false) }
+
     var showReceipt by rememberSaveable { mutableStateOf(false) }
     var receiptName by rememberSaveable { mutableStateOf("") }
     var receiptPS by rememberSaveable { mutableStateOf("") }
@@ -97,6 +103,9 @@ fun ScreenContent(modifier: Modifier = Modifier, navController: NavHostControlle
             value = name,
             onValueChange = { name = it },
             label = { Text(text = stringResource(R.string.customer_name)) },
+            trailingIcon = {IconPicker(errorName)},
+            supportingText = { ErrorHint(errorName) },
+            isError = errorName,
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -154,6 +163,9 @@ fun ScreenContent(modifier: Modifier = Modifier, navController: NavHostControlle
                 value = hours,
                 onValueChange = { hours = it },
                 label = { Text(text = stringResource(R.string.total_hours)) },
+                trailingIcon = {IconPicker(errorHours)},
+                supportingText = { ErrorHint(errorHours) },
+                isError = errorHours,
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
@@ -161,12 +173,13 @@ fun ScreenContent(modifier: Modifier = Modifier, navController: NavHostControlle
                 ),
                 modifier = Modifier.fillMaxWidth().padding(top = 12.dp)
             )
-            Text(
-                text = stringResource(R.string.total_price) + totalPrice(selectedPS, hours.toIntOrNull() ?:0)
-            )
         }
         Button(
             onClick = {
+                errorName = (name == "")
+                errorHours = (hours == "" || hours == "0")
+                if (errorName || errorHours) return@Button
+
                 if (name.isNotEmpty() && hours.isNotEmpty()) {
                     receiptName = name
                     receiptPS = selectedPS
@@ -233,6 +246,22 @@ fun totalPrice(selectedPS: String, totalHours: Int): Int {
         else -> 0
     }
     return pricePerHours * totalHours
+}
+
+@Composable
+fun IconPicker(isError: Boolean) {
+    if (isError) {
+        Icon(imageVector = Icons.Filled.Warning, contentDescription = null)
+    } else {
+        Text(text = "")
+    }
+}
+
+@Composable
+fun ErrorHint(isError: Boolean) {
+    if (isError) {
+        Text(text = stringResource(R.string.input_invalid))
+    }
 }
 
 @Preview(showBackground = true)
