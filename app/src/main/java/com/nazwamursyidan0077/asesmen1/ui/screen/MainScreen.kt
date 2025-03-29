@@ -214,15 +214,15 @@ fun ScreenContent(modifier: Modifier = Modifier, navController: NavHostControlle
                     )
                     HorizontalDivider()
                     Text(
-                        text = stringResource(R.string.customer_name) + " $receiptName",
+                        text = stringResource(R.string.customer_name) + ": $receiptName",
                         style = MaterialTheme.typography.bodyLarge
                     )
                     Text(
-                        text = stringResource(R.string.ps_type) + " $receiptPS",
+                        text = stringResource(R.string.ps_type) + ": $receiptPS",
                         style = MaterialTheme.typography.bodyLarge
                     )
                     Text(
-                        text = stringResource(R.string.total_hours) + " $receiptHours",
+                        text = stringResource(R.string.total_hours) + ": $receiptHours",
                         style = MaterialTheme.typography.bodyLarge
                     )
                     HorizontalDivider()

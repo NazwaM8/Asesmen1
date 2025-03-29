@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Aplikasi Rental PS</string>
+    <string name="rental_intro">Selamat datang di aplikasi Rental PS. \nTolong isi data dibawah untuk menyelesaikan transaksi.</string>
+    <string name="customer_name">Nama</string>
+    <string name="rental_ps">Rental PS</string>
+    <string name="ps_type">Tipe PS</string>
+    <string name="total_hours">Jam</string>
+    <string name="total_price">Total Harga: Rp.</string>
+    <string name="print_receipt">Cetak Bukti Transaksi</string>
+    <string name="receipt">Bukti Transaksi</string>
+    <string name="list_game">Daftar Game</string>
+    <string name="list_ps2">Daftar Game PS2</string>
+    <string name="list_ps3">Daftar Game PS3</string>
+    <string name="list_ps4">Daftar Game PS4</string>
+    <string name="list_ps5">Daftar Game PS5</string>
+    <string name="back">Kembali</string>
+    <string name="input_invalid">Tidak Boleh Kosong</string>
+</resources>
