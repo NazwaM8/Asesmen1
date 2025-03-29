@@ -1,5 +1,7 @@
 package com.nazwamursyidan0077.asesmen1.ui.screen
 
+import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -38,6 +40,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -85,6 +88,7 @@ fun ScreenContent(modifier: Modifier = Modifier, navController: NavHostControlle
     var receiptPS by rememberSaveable { mutableStateOf("") }
     var receiptHours by rememberSaveable { mutableIntStateOf(0) }
 
+    val context = LocalContext.current
 
     Column (
         modifier = modifier
@@ -233,6 +237,18 @@ fun ScreenContent(modifier: Modifier = Modifier, navController: NavHostControlle
                     )
                 }
             }
+            Button(
+                onClick = {
+                    shareData(
+                        context = context,
+                        message = context.getString(R.string.share_template, name, selectedPS, hours, totalPrice(receiptPS, receiptHours))
+                    )
+                },
+                modifier = Modifier.padding(top = 8.dp),
+                contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
+            ) {
+                Text(text = stringResource(R.string.share_receipt))
+            }
         }
     }
 }
@@ -247,6 +263,17 @@ fun totalPrice(selectedPS: String, totalHours: Int): Int {
     }
     return pricePerHours * totalHours
 }
+
+private fun shareData(context: Context, message: String) {
+    val shareIntent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, message)
+    }
+    if (shareIntent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(shareIntent)
+    }
+}
+
 
 @Composable
 fun IconPicker(isError: Boolean) {

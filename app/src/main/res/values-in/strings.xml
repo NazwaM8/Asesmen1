@@ -16,4 +16,6 @@
     <string name="list_ps5">Daftar Game PS5</string>
     <string name="back">Kembali</string>
     <string name="input_invalid">Tidak Boleh Kosong</string>
+    <string name="share_receipt"> Bagikan</string>
+    <string name="share_template">Bukti Transaksi\nNama: %1$s\nTipe PS: %2$s\nJam: %3$s\n\nTotal Harga: Rp. %4$d</string>
 </resources>
