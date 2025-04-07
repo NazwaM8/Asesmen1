@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rental PS App</string>
+    <string name="app_name">PS Rental App</string>
     <string name="rental_intro">Welcome to the Rental PS App.\nPlease fill in the data below to complete the transaction.</string>
     <string name="customer_name">Name</string>
     <string name="rental_ps">Rental PS</string>
@@ -17,4 +17,8 @@
     <string name="input_invalid">Cannot be Empty</string>
     <string name="share_receipt"> Share</string>
     <string name="share_template">Receipt\nName: %1$s\nPS Type: %2$s\nHours: %3$s\n\nTotal Price: Rp. %4$d</string>
+    <string name="menu">Menu</string>
+    <string name="about_app">About App</string>
+    <string name="copyright">PS Rental App is an Android application to make transactions easier when renting PS\n\nCopyright © 2025 Nazwa Mursyidan Baldan.\nAll rights reserved</string>
+    <string name="about_me">About Me</string>
 </resources>

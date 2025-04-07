@@ -14,15 +14,20 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedButton
@@ -56,6 +61,8 @@ import com.nazwamursyidan0077.asesmen1.ui.theme.Asesmen1Theme
 @Composable
 fun MainScreen(navController: NavHostController) {
 
+    var expanded by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -63,13 +70,44 @@ fun MainScreen(navController: NavHostController) {
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary,
-                )
+                ),
+                actions = {
+                    IconButton(onClick = { expanded = true }) {
+                        Icon(
+                            imageVector = Icons.Outlined.MoreVert,
+                            contentDescription = stringResource(R.string.menu),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.about_app)) },
+                            leadingIcon = {Icon(Icons.Outlined.Info, contentDescription = null)},
+                            onClick = {
+                                expanded = false
+                                navController.navigate(Screen.About.route)
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.about_me)) },
+                            leadingIcon = {Icon(Icons.Outlined.Person, contentDescription = null)},
+                            onClick = {
+                                expanded = false
+                                navController.navigate(Screen.Me.route)
+                            }
+                        )
+                    }
+                }
             )
         }
     ) { innerPadding ->
         ScreenContent(Modifier.padding(innerPadding), navController)
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -123,7 +161,7 @@ fun ScreenContent(modifier: Modifier = Modifier, navController: NavHostControlle
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp),
+                .padding(bottom = 10.dp),
             contentPadding = PaddingValues(vertical = 16.dp)
         ) {
             Text(

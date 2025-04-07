@@ -18,4 +18,8 @@
     <string name="input_invalid">Tidak Boleh Kosong</string>
     <string name="share_receipt"> Bagikan</string>
     <string name="share_template">Bukti Transaksi\nNama: %1$s\nTipe PS: %2$s\nJam: %3$s\n\nTotal Harga: Rp. %4$d</string>
+    <string name="menu">Menu</string>
+    <string name="about_app">Tentang Aplikasi</string>
+    <string name="copyright">Aplikasi Rental PS merupakan sebuah aplikasi Android untuk mempermudah transaksi dalam rental PS\n\nCopyright © 2025 Nazwa Mursyidan Baldan.\nAll rights reserved</string>
+    <string name="about_me">Tentang Saya</string>
 </resources>
